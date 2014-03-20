@@ -628,6 +628,58 @@ void rcc_clock_setup_in_hsi_out_48mhz(void)
 	rcc_core_frequency = 48000000;
 }
 
+/*---------------------------------------------------------------------------*/
+/** @brief RCC Set System Clock PLL at 48MHz from HSE at 8MHz
+
+*/
+
+void rcc_clock_setup_in_hse_8mhz_out_48mhz(void)
+{
+    /* Enable internal hight-speed oscillator. */
+    rcc_osc_on(HSI);
+    rcc_wait_for_osc_ready(HSI);
+
+    /* Select HSI as SYSCLK source. */
+    rcc_set_sysclk_source(HSI);
+
+    /* Enable external high-speed oscillator 8Mhz. */
+    rcc_osc_on(HSE);
+    rcc_wait_for_osc_ready(HSE);
+    rcc_set_sysclk_source(HSE);
+
+    /*
+     * Set prescalers for AHB, ADC, AB1.
+     * Do this before touching the PLL (TODO: why?).
+     */
+	rcc_set_hpre(RCC_CFGR_HPRE_NODIV);
+	rcc_set_ppre(RCC_CFGR_PPRE_NODIV);
+
+    /*
+     * Sysclk runs with 48Mhz -> 1 waitstates.
+     * 0WS from 0-24Mhz
+     * 1WS from 24-48Mhz
+     * 2WS from 48-72Mhz
+     */
+    flash_set_ws(FLASH_ACR_LATENCY_1WS);
+
+    /**
+     * Set the PLL multiplication factor to 6.
+     * 8Mhz (external) * 6 (multiplier) = 48Mhz
+     */
+    rcc_set_pll_multiplication_factor(RCC_CFGR_PLLMUL_MUL6);
+
+	RCC_CFGR &= ~RCC_CFGR_PLLSRC;
+
+    /* Enable PLL oscillator and wait for it to stabilize. */
+    rcc_osc_on(PLL);
+    rcc_wait_for_osc_ready(PLL);
+
+    /* Select PLL as SYSCLK source. */
+    rcc_set_sysclk_source(PLL);
+
+    /* Set the peripheral clock frequencies used */
+    rcc_ppre_frequency = 24000000;
+}
 
 #define _RCC_REG(i)		MMIO32(RCC_BASE + ((i) >> 5))
 #define _RCC_BIT(i)		(1 << ((i) & 0x1f))

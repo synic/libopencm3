@@ -129,7 +129,6 @@ Control</b>
 #define RCC_CFGR_PLLSRC0			(1<<15)
 #define RCC_CFGR_ADCPRE				(1<<14)
 
-
 #define RCC_CFGR_PPRE_SHIFT			8
 #define RCC_CFGR_PPRE				(7 << RCC_CFGR_PPRE_SHIFT)
 #define RCC_CFGR_PPRE_NODIV			(0 << RCC_CFGR_PPRE_SHIFT)
@@ -516,6 +515,7 @@ void rcc_periph_clock_disable(enum rcc_periph_clken periph);
 void rcc_periph_reset_pulse(enum rcc_periph_rst periph);
 void rcc_periph_reset_hold(enum rcc_periph_rst periph);
 void rcc_periph_reset_release(enum rcc_periph_rst periph);
+void rcc_clock_setup_in_hse_8mhz_out_48mhz(void);
 
 END_DECLS
 
