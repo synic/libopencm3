@@ -678,7 +678,8 @@ void rcc_clock_setup_in_hse_8mhz_out_48mhz(void)
     rcc_set_sysclk_source(PLL);
 
     /* Set the peripheral clock frequencies used */
-    rcc_ppre_frequency = 24000000;
+	rcc_ppre_frequency = 48000000;
+	rcc_core_frequency = 48000000;
 }
 
 #define _RCC_REG(i)		MMIO32(RCC_BASE + ((i) >> 5))
