@@ -504,6 +504,7 @@ void rcc_set_hpre(uint32_t hpre);
 void rcc_set_prediv(uint32_t prediv);
 void rcc_set_mco(uint32_t mcosrc);
 enum rcc_osc rcc_system_clock_source(void);
+void rcc_clock_setup_in_hsi_out_4mhz(void);
 void rcc_clock_setup_in_hsi_out_8mhz(void);
 void rcc_clock_setup_in_hsi_out_16mhz(void);
 void rcc_clock_setup_in_hsi_out_24mhz(void);

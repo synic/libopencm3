@@ -492,6 +492,21 @@ enum rcc_osc rcc_system_clock_source(void)
 	cm3_assert_not_reached();
 }
 
+void rcc_clock_setup_in_hsi_out_4mhz(void)
+{
+    rcc_osc_on(HSI);
+    rcc_wait_for_osc_ready(HSI);
+    rcc_set_sysclk_source(HSI);
+
+    rcc_set_hpre(RCC_CFGR_HPRE_DIV2);
+	rcc_set_ppre(RCC_CFGR_PPRE_NODIV);
+
+	flash_set_ws(FLASH_ACR_LATENCY_000_024MHZ);
+
+	rcc_ppre_frequency = 4000000;
+	rcc_core_frequency = 4000000;
+}
+
 void rcc_clock_setup_in_hsi_out_8mhz(void)
 {
 	rcc_osc_on(HSI);
