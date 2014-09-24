@@ -675,13 +675,13 @@ void rcc_clock_setup_in_hse_8mhz_out_48mhz(void)
      * 1WS from 24-48Mhz
      * 2WS from 48-72Mhz
      */
-    flash_set_ws(FLASH_ACR_LATENCY_1WS);
+	flash_set_ws(FLASH_ACR_LATENCY_024_048MHZ);
 
     /**
      * Set the PLL multiplication factor to 6.
      * 8Mhz (external) * 6 (multiplier) = 48Mhz
      */
-    rcc_set_pll_multiplication_factor(RCC_CFGR_PLLMUL_MUL6);
+    rcc_set_pll_multiplication_factor(RCC_CFGR_PLLMUL_MUL12);
 
 	RCC_CFGR &= ~RCC_CFGR_PLLSRC;
 
